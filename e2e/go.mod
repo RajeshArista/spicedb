@@ -5,14 +5,14 @@ go 1.17
 require (
 	github.com/authzed/authzed-go v0.5.1-0.20220303182356-243e79ca06fa
 	github.com/authzed/grpcutil v0.0.0-20220104222419-f813f77722e5
-	github.com/authzed/spicedb v0.0.0
-	github.com/brianvoe/gofakeit/v6 v6.14.3
+	github.com/authzed/spicedb v1.5.0
+	github.com/brianvoe/gofakeit/v6 v6.15.0
 	github.com/ecordell/optgen v0.0.6
 	github.com/jackc/pgtype v1.10.0
 	github.com/jackc/pgx/v4 v4.15.0
-	github.com/stretchr/testify v1.7.0
-	golang.org/x/tools v0.1.9
-	google.golang.org/grpc v1.44.0
+	github.com/stretchr/testify v1.7.1
+	golang.org/x/tools v0.1.10
+	google.golang.org/grpc v1.45.0
 	mvdan.cc/gofumpt v0.3.0
 )
 
