@@ -10,14 +10,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/authzed/spicedb/internal/datastore"
-	"github.com/authzed/spicedb/internal/datastore/crdb"
-	"github.com/authzed/spicedb/internal/datastore/memdb"
-	"github.com/authzed/spicedb/internal/datastore/postgres"
 	"github.com/authzed/spicedb/internal/datastore/proxy"
-	"github.com/authzed/spicedb/internal/datastore/spanner"
 	"github.com/authzed/spicedb/pkg/validationfile"
 )
 
+/*
 type engineBuilderFunc func(options Config) (datastore.Datastore, error)
 
 const (
@@ -26,14 +23,16 @@ const (
 	CockroachEngine = "cockroachdb"
 	SpannerEngine   = "spanner"
 )
-
+*/
+/*
 var BuilderForEngine = map[string]engineBuilderFunc{
 	CockroachEngine: newCRDBDatastore,
 	PostgresEngine:  newPostgresDatastore,
 	MemoryEngine:    newMemoryDatstore,
 	SpannerEngine:   newSpannerDatastore,
-}
+}*/
 
+/*
 //go:generate go run github.com/ecordell/optgen -output zz_generated.options.go . Config
 type Config struct {
 	Engine               string
@@ -76,10 +75,10 @@ type Config struct {
 	// Internal
 	WatchBufferLength      uint16
 	EnableDatastoreMetrics bool
-}
+}*/
 
 // RegisterDatastoreFlags adds datastore flags to a cobra command
-func RegisterDatastoreFlags(cmd *cobra.Command, opts *Config) {
+func RegisterDatastoreFlags(cmd *cobra.Command, opts *datastore.Config) {
 	cmd.Flags().StringVar(&opts.Engine, "datastore-engine", "memory", `type of datastore to initialize ("memory", "postgres", "cockroachdb", "spanner")`)
 	cmd.Flags().StringVar(&opts.URI, "datastore-conn-uri", "", `connection string used by remote datastores (e.g. "postgres://postgres:password@localhost:5432/spicedb")`)
 	cmd.Flags().IntVar(&opts.MaxOpenConns, "datastore-conn-max-open", 20, "number of concurrent connections open in a remote datastore's connection pool")
@@ -107,8 +106,8 @@ func RegisterDatastoreFlags(cmd *cobra.Command, opts *Config) {
 	cmd.Flags().StringVar(&opts.SpannerCredentialsFile, "datastore-spanner-credentials", "", "path to service account key credentials file with access to the cloud spanner instance")
 }
 
-func DefaultDatastoreConfig() *Config {
-	return &Config{
+func DefaultDatastoreConfig() *datastore.Config {
+	return &datastore.Config{
 		GCWindow:             24 * time.Hour,
 		RevisionQuantization: 5 * time.Second,
 		MaxLifetime:          30 * time.Minute,
@@ -126,13 +125,13 @@ func DefaultDatastoreConfig() *Config {
 }
 
 // NewDatastore initializes a datastore given the options
-func NewDatastore(options ...ConfigOption) (datastore.Datastore, error) {
+func NewDatastore(options ...datastore.ConfigOption) (datastore.Datastore, error) {
 	opts := DefaultDatastoreConfig()
 	for _, o := range options {
 		o(opts)
 	}
 
-	dsBuilder, ok := BuilderForEngine[opts.Engine]
+	/*dsBuilder, ok := BuilderForEngine[opts.Engine]
 	if !ok {
 		return nil, fmt.Errorf("unknown datastore engine type: %s", opts.Engine)
 	}
@@ -141,6 +140,10 @@ func NewDatastore(options ...ConfigOption) (datastore.Datastore, error) {
 	ds, err := dsBuilder(*opts)
 	if err != nil {
 		return nil, err
+	}*/
+	ds, err := datastore.Open(opts.Engine, *opts)
+	if err != nil {
+		return nil, fmt.Errorf("can't open datastore: %v", err)
 	}
 
 	if len(opts.BootstrapFiles) > 0 {
@@ -186,6 +189,7 @@ func NewDatastore(options ...ConfigOption) (datastore.Datastore, error) {
 	return ds, nil
 }
 
+/*
 func newCRDBDatastore(opts Config) (datastore.Datastore, error) {
 	return crdb.NewCRDBDatastore(
 		opts.URI,
@@ -239,4 +243,4 @@ func newSpannerDatastore(opts Config) (datastore.Datastore, error) {
 func newMemoryDatstore(opts Config) (datastore.Datastore, error) {
 	log.Warn().Msg("in-memory datastore is not persistent and not feasible to run in a high availability fashion")
 	return memdb.NewMemdbDatastore(opts.WatchBufferLength, opts.RevisionQuantization, opts.GCWindow, 0)
-}
+}*/

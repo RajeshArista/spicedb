@@ -49,7 +49,7 @@ type Config struct {
 	HTTPGatewayCorsAllowedOrigins  []string
 
 	// Datastore
-	DatastoreConfig datastorecfg.Config
+	DatastoreConfig datastore.Config
 	Datastore       datastore.Datastore
 
 	// Namespace cache

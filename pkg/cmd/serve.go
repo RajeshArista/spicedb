@@ -69,7 +69,7 @@ func RegisterServeFlags(cmd *cobra.Command, config *server.Config) {
 
 	// Flags for misc services
 	util.RegisterHTTPServerFlags(cmd.Flags(), &config.DashboardAPI, "dashboard", "dashboard", ":8080", true)
-	util.RegisterHTTPServerFlags(cmd.Flags(), &config.MetricsAPI, "metrics", "metrics", ":9090", true)
+	util.RegisterHTTPServerFlags(cmd.Flags(), &config.MetricsAPI, "metrics", "metrics", ":9990", true)
 }
 
 func NewServeCommand(programName string, config *server.Config) *cobra.Command {

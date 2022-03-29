@@ -2,6 +2,7 @@ package datastore
 
 import (
 	"context"
+	"time"
 
 	v1 "github.com/authzed/authzed-go/proto/authzed/api/v1"
 	"github.com/shopspring/decimal"
@@ -16,6 +17,50 @@ var Engines = []string{}
 // Ellipsis is a special relation that is assumed to be valid on the right
 // hand side of a tuple.
 const Ellipsis = "..."
+
+//go:generate go run github.com/ecordell/optgen -output zz_generated.options.go . Config
+type Config struct {
+	Engine               string
+	URI                  string
+	GCWindow             time.Duration
+	RevisionQuantization time.Duration
+
+	// Options
+	MaxIdleTime     time.Duration
+	MaxLifetime     time.Duration
+	MaxOpenConns    int
+	MinOpenConns    int
+	SplitQueryCount uint16
+	ReadOnly        bool
+
+	// Bootstrap
+	BootstrapFiles     []string
+	BootstrapOverwrite bool
+
+	// Hedging
+	RequestHedgingEnabled          bool
+	RequestHedgingInitialSlowValue time.Duration
+	RequestHedgingMaxRequests      uint64
+	RequestHedgingQuantile         float64
+
+	// CRDB
+	FollowerReadDelay time.Duration
+	MaxRetries        int
+	OverlapKey        string
+	OverlapStrategy   string
+
+	// Postgres
+	HealthCheckPeriod  time.Duration
+	GCInterval         time.Duration
+	GCMaxOperationTime time.Duration
+
+	// Spanner
+	SpannerCredentialsFile string
+
+	// Internal
+	WatchBufferLength      uint16
+	EnableDatastoreMetrics bool
+}
 
 // RevisionChanges represents the changes in a single transaction.
 type RevisionChanges struct {

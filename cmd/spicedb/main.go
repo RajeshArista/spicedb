@@ -8,6 +8,10 @@ import (
 	"github.com/sercand/kuberesolver/v3"
 	"google.golang.org/grpc/balancer"
 
+	_ "github.com/authzed/spicedb/internal/datastore/crdb"
+	_ "github.com/authzed/spicedb/internal/datastore/memdb"
+	_ "github.com/authzed/spicedb/internal/datastore/postgres"
+	_ "github.com/authzed/spicedb/internal/datastore/spanner"
 	consistentbalancer "github.com/authzed/spicedb/pkg/balancer"
 	"github.com/authzed/spicedb/pkg/cmd"
 	cmdutil "github.com/authzed/spicedb/pkg/cmd/server"
