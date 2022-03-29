@@ -32,7 +32,6 @@ var BuilderForEngine = map[string]engineBuilderFunc{
 	SpannerEngine:   newSpannerDatastore,
 }*/
 
-/*
 //go:generate go run github.com/ecordell/optgen -output zz_generated.options.go . Config
 type Config struct {
 	Engine               string
@@ -75,10 +74,10 @@ type Config struct {
 	// Internal
 	WatchBufferLength      uint16
 	EnableDatastoreMetrics bool
-}*/
+}
 
 // RegisterDatastoreFlags adds datastore flags to a cobra command
-func RegisterDatastoreFlags(cmd *cobra.Command, opts *datastore.Config) {
+func RegisterDatastoreFlags(cmd *cobra.Command, opts *Config) {
 	cmd.Flags().StringVar(&opts.Engine, "datastore-engine", "memory", `type of datastore to initialize ("memory", "postgres", "cockroachdb", "spanner")`)
 	cmd.Flags().StringVar(&opts.URI, "datastore-conn-uri", "", `connection string used by remote datastores (e.g. "postgres://postgres:password@localhost:5432/spicedb")`)
 	cmd.Flags().IntVar(&opts.MaxOpenConns, "datastore-conn-max-open", 20, "number of concurrent connections open in a remote datastore's connection pool")
@@ -106,8 +105,8 @@ func RegisterDatastoreFlags(cmd *cobra.Command, opts *datastore.Config) {
 	cmd.Flags().StringVar(&opts.SpannerCredentialsFile, "datastore-spanner-credentials", "", "path to service account key credentials file with access to the cloud spanner instance")
 }
 
-func DefaultDatastoreConfig() *datastore.Config {
-	return &datastore.Config{
+func DefaultDatastoreConfig() *Config {
+	return &Config{
 		GCWindow:             24 * time.Hour,
 		RevisionQuantization: 5 * time.Second,
 		MaxLifetime:          30 * time.Minute,
@@ -125,7 +124,7 @@ func DefaultDatastoreConfig() *datastore.Config {
 }
 
 // NewDatastore initializes a datastore given the options
-func NewDatastore(options ...datastore.ConfigOption) (datastore.Datastore, error) {
+func NewDatastore(options ...ConfigOption) (datastore.Datastore, error) {
 	opts := DefaultDatastoreConfig()
 	for _, o := range options {
 		o(opts)

@@ -2,9 +2,10 @@
 package server
 
 import (
-	datastore "github.com/authzed/spicedb/internal/datastore"
+	datastore1 "github.com/authzed/spicedb/internal/datastore"
 	dispatch "github.com/authzed/spicedb/internal/dispatch"
 	namespace "github.com/authzed/spicedb/internal/namespace"
+	datastore "github.com/authzed/spicedb/pkg/cmd/datastore"
 	util "github.com/authzed/spicedb/pkg/cmd/util"
 	auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc "google.golang.org/grpc"
@@ -144,7 +145,7 @@ func WithDatastoreConfig(datastoreConfig datastore.Config) ConfigOption {
 }
 
 // WithDatastore returns an option that can set Datastore on a Config
-func WithDatastore(datastore datastore.Datastore) ConfigOption {
+func WithDatastore(datastore datastore1.Datastore) ConfigOption {
 	return func(c *Config) {
 		c.Datastore = datastore
 	}
