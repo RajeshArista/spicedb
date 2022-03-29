@@ -14,6 +14,10 @@ import (
 	_ "github.com/authzed/spicedb/internal/datastore/spanner"
 	consistentbalancer "github.com/authzed/spicedb/pkg/balancer"
 	"github.com/authzed/spicedb/pkg/cmd"
+	_ "github.com/authzed/spicedb/pkg/cmd/datastore/crdb"
+	_ "github.com/authzed/spicedb/pkg/cmd/datastore/memdb"
+	_ "github.com/authzed/spicedb/pkg/cmd/datastore/postgres"
+	_ "github.com/authzed/spicedb/pkg/cmd/datastore/spanner"
 	cmdutil "github.com/authzed/spicedb/pkg/cmd/server"
 	"github.com/authzed/spicedb/pkg/cmd/testserver"
 )

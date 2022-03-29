@@ -141,7 +141,7 @@ func NewDatastore(options ...datastore.ConfigOption) (datastore.Datastore, error
 	if err != nil {
 		return nil, err
 	}*/
-	ds, err := datastore.Open(opts.Engine, *opts)
+	ds, err := Open(opts.Engine, *opts)
 	if err != nil {
 		return nil, fmt.Errorf("can't open datastore: %v", err)
 	}
